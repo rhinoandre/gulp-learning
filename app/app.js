@@ -1,5 +1,14 @@
 require('angular');
-var gulpController = require('./controllers/gulpController');
+require('angular-ui-router');
 
-angular.module('gulpLearning', [])
-.controller('GulpController', ['$scope', '$timeout', gulpController]);
+var routes = require('./routes')
+var TodoController = require('./modules/todo/todo.controller');
+var TodoDirective = require('./modules/todo/todo.directive');
+
+angular.module('gulpLearning', [
+    'ui.router'
+])
+.config(['$stateProvider', '$urlRouterProvider', routes])
+.controller('TodoController', ['$scope', TodoController])
+.directive('todoTest', TodoDirective);
+

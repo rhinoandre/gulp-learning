@@ -1,4 +1,5 @@
 var gulp = require('gulp');
+var clean = require('gulp-clean');
 var sass = require('gulp-ruby-sass')
 var connect = require('gulp-connect');
 var browserify = require('browserify');
@@ -13,7 +14,18 @@ gulp.task('connect', () => {
 
 gulp.task('watch', () => {
     gulp.watch('app/**/*.js', ['browserify']);
+    gulp.watch('app/**/*.html', ['copy']);
     gulp.watch('app/sass/style.sass', ['sass']);
+});
+
+gulp.task('copy', () => {
+    gulp.src(['app/**/*.html'])
+        .pipe(gulp.dest('./public/'));
+});
+
+gulp.task('clean', () => {
+    gulp.src(['public/js', 'public/css', 'public/modules'], {read: false})
+        .pipe(clean());
 });
 
 gulp.task('browserify', () => {
@@ -31,4 +43,5 @@ gulp.task('sass', () => {
                 .pipe(gulp.dest('public/css'));
 });
 
-gulp.task('default', ['connect', 'watch']);
+gulp.task('generateFiles', ['clean', 'browserify', 'sass', 'copy']);
+gulp.task('default', ['generateFiles', 'connect', 'watch']);

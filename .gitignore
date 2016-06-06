@@ -1,4 +1,6 @@
 dist
 node_modules
-public/*.js
-public/*.map.js
+public/**/*.js
+public/**/*.map.js
+public/**/*.css
+.sass-cache
